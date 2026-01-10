@@ -36,3 +36,7 @@ These should be synced with the Figma design system when possible.
 ## Tabs Component
 
 **Block Inverted appearance missing color styles in Figma**: The Figma design for Tabs `Block Inverted` variant appears to be missing some color style definitions. Code implementation uses reasonable defaults (dark container bg-gray-800, white selected tab, gray-300 default text) but should be verified against updated Figma specs when available.
+
+## StepIndicator Component
+
+**Progress line color behavior not explicitly defined in Figma**: The Figma design doesn't explicitly show the connector line color when transitioning between complete and active/error steps. Code implementation extends the green "complete" line color all the way to the current step (active or error) to more clearly indicate progress. This means the line leading INTO the active or error step is green, while lines after remain gray. This applies to both active steps (in progress) and error steps (failed at that point). This decision should be confirmed with the design system manager.
