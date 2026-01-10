@@ -64,32 +64,23 @@ When tokens change in Figma:
 4. Run `npm run build:tokens` and `npm run build:tailwind`
 5. Log any new issues in `tokens/TOKEN-ISSUES.md`
 
-### Storybook Theme Switching
+### Custom Token Scales
 
-Brand switching is implemented in `.storybook/preview.tsx` (note: there's also a simpler `preview.ts` but `preview.tsx` contains the full theme implementation):
-- Global type `theme` provides toolbar dropdown
-- Decorator applies `data-theme` attribute to story wrapper
-- CSS in `.storybook/themes/[brand].css` defines brand color variables
+**IMPORTANT:** This project uses custom token scales from Figma, NOT Tailwind defaults.
 
-### Component Structure
+**Spacing scale** (pixel values, not 4x multiplier):
+- `px-8` = 8px, `py-4` = 4px, `gap-6` = 6px
+- Available: 0, 2, 4, 6, 8, 10, 12, 14, 16, 18, 24, 32, 48, 64, 80
 
-Components use React Aria for accessibility and Tailwind for styling:
+**Border radius scale**:
+- `rounded-6` = 6px, `rounded-8` = 8px
+- Available: 0, 2, 4, 6, 8, 12, 16, 20, 24, 9999
+- Do NOT use `rounded-md`, `rounded-lg` - these don't exist
 
-```
-src/components/[ComponentName]/
-├── [ComponentName].tsx       # Component with React Aria
-├── [ComponentName].stories.tsx
-├── [ComponentName].figma.tsx # Figma Code Connect
-└── index.ts
-```
-
-Every component file must have a doc comment linking to Figma source:
-```tsx
-/**
- * ComponentName component
- * @figma https://www.figma.com/design/<file-id>?node-id=<node-id>
- */
-```
+**Colors**:
+- Use `text-base-white` and `bg-base-white` (not `text-white`, `bg-white`)
+- Brand colors: `brand-50` through `brand-950`
+- Semantic: `error-*`, `warning-*`, `success-*`
 
 ## Component Development Workflow
 
@@ -105,11 +96,18 @@ Every component file must have a doc comment linking to Figma source:
    - Note spacing, colors, typography tokens used
    - Identify which React Aria component to use
 
-3. **Create Component Files** - Follow the structure above
+3. **Create Component Files**:
+   ```
+   src/components/[ComponentName]/
+   ├── [ComponentName].tsx         # Component with React Aria
+   ├── [ComponentName].stories.tsx # Storybook stories
+   ├── [ComponentName].figma.tsx   # Figma Code Connect
+   └── index.ts                    # Public export
+   ```
 
 4. **Map Figma to React** - See property mapping below
 
-5. **Create Storybook Stories** - One story per variant, final story links to Figma
+5. **Create Storybook Stories** - Three stories: Overview, Interactive, Figma
 
 6. **Publish Code Connect** - Run `npm run figma:publish`
 
@@ -124,88 +122,146 @@ Every component file must have a doc comment linking to Figma source:
 
 ### Universal Component Pattern
 
-ALL components use the style object pattern with `sortCx`. Only include keys that apply:
+ALL components use the style object pattern with `sortCx`:
 
 ```tsx
-// Full example (component with variants + sizes)
+/**
+ * ComponentName component
+ * @figma https://www.figma.com/design/<file-id>?node-id=<node-id>
+ */
+'use client'
+
+import type { FC, ReactNode } from 'react'
+import { isValidElement } from 'react'
+import type { ButtonProps as AriaButtonProps } from 'react-aria-components'
+import { Button as AriaButton } from 'react-aria-components'
+import { cx, sortCx } from '@/utils/cx'
+import { isReactComponent } from '@/utils/is-react-component'
+
 export const styles = sortCx({
   common: {
     root: [
-      'base-styles-here',
-      'more-styles',
+      'base-classes-here',
+      'focus-visible:ring-4 focus-visible:ring-brand-100',
+      'disabled:cursor-not-allowed',
     ].join(' '),
-    icon: 'pointer-events-none size-5 shrink-0',
+    icon: 'pointer-events-none shrink-0',
   },
   sizes: {
-    sm: { root: 'px-3 py-2 text-sm' },
-    md: { root: 'px-4 py-2.5 text-sm' },
+    xs: { root: 'gap-4 rounded-6 px-8 py-4 text-xs', icon: 'size-[14px]' },
+    sm: { root: 'gap-6 rounded-8 px-12 py-8 text-sm', icon: 'size-[16px]' },
+    md: { root: 'gap-8 rounded-8 px-14 py-10 text-sm', icon: 'size-[18px]' },
+    lg: { root: 'gap-8 rounded-8 px-18 py-12 text-md', icon: 'size-[20px]' },
   },
   variants: {
-    primary: { root: 'bg-brand-600 text-white hover:bg-brand-700' },
-    secondary: { root: 'bg-white text-gray-700 ring-1 ring-gray-300' },
+    primary: {
+      root: [
+        'bg-brand-600 text-base-white shadow-sm',
+        'hover:bg-brand-700',
+        'disabled:bg-gray-100 disabled:text-gray-400',
+      ].join(' '),
+    },
+    soft: {
+      root: [
+        'bg-brand-100 text-brand-700',
+        'hover:bg-brand-200',
+        'disabled:bg-gray-100 disabled:text-gray-400',
+      ].join(' '),
+    },
   },
 })
 
-// Derived types (only when applicable)
 export type ComponentSize = keyof typeof styles.sizes
 export type ComponentVariant = keyof typeof styles.variants
 ```
 
-**Why this pattern:**
-- Consistent across all components (simple or complex)
-- Mirrors Figma structure (variants, sizes as separate concerns)
-- Types derived automatically from style object
-- Flexible - only include keys that apply to the component
+### Icon Props Pattern
+
+Support both FC components and ReactNode elements:
+
+```tsx
+interface Props {
+  iconLeading?: FC<{ className?: string }> | ReactNode
+}
+
+// In render:
+{isValidElement(IconLeading) && IconLeading}
+{isReactComponent(IconLeading) && <IconLeading className={iconClassName} />}
+```
 
 ### Path Alias
 
 Use `@/` to import from `src/`:
 ```tsx
-import { cx } from '@/utils/cx'
+import { cx, sortCx } from '@/utils/cx'
+import { isReactComponent } from '@/utils/is-react-component'
 import { Button } from '@/components/Button'
 ```
 
-### Styling Utilities
-
-Use `cx()` from `@/utils/cx` for className merging (extends tailwind-merge):
-```tsx
-import { cx } from '@/utils/cx'
-cx('bg-brand-600', isDisabled && 'opacity-50', className)
-```
-
-Use `sortCx()` for organizing style objects to enable Tailwind IntelliSense sorting.
-
-### Tailwind Configuration
-
-- Base config: `tailwind.config.js` - shared utilities (spacing, radius, gray colors)
-- Storybook: `tailwind.config.storybook.js` - extends base with CSS variable colors
-- Brands: `tailwind.config.[brand].js` - extends base with hardcoded brand colors
-
-Color naming:
-- `brand-*` / `primary-*` - Brand primary color
-- `secondary-*` - Brand secondary color
-- `gray-*` - Neutral colors
-- `error-*` / `destructive-*` - Red semantic colors
-- `warning-*` - Yellow semantic colors
-- `success-*` - Green semantic colors
-
 ## Storybook Stories
 
-ArgTypes should be organized by category:
-- **Appearance**: size, color, variant
-- **State**: isDisabled, isLoading, isSelected
-- **Icons**: iconLeading, iconTrailing, icon
-- **Content**: children, label, title, description
-- **Behavior**: href, onChange, onPress
-- **Advanced**: className, style
+Each component has exactly 3 stories:
 
-Final story should be titled "Figma" and link back to the source.
+1. **Overview** - Shows all variants grouped by Figma property (Appearance, Layout, State, Size)
+2. **Interactive** - Single component with all controls enabled
+3. **Figma** - Links back to Figma source
+
+### ArgTypes Categories
+
+Organize controls by category:
+- **Appearance**: variant, size
+- **State**: isDisabled, isLoading, isSelected
+- **Icons**: iconLeading, iconTrailing
+- **Content**: children, label
+- **Behavior**: href, onPress
+- **Advanced**: className
+
+### Icon Controls
+
+Use mapping for icon select controls:
+
+```tsx
+const iconOptions = {
+  None: undefined,
+  Plus: PlusIcon,
+  ArrowRight: ArrowRightIcon,
+}
+
+// In argTypes:
+iconLeading: {
+  control: 'select',
+  options: Object.keys(iconOptions),
+  mapping: iconOptions,
+  table: { category: 'Icons' },
+},
+```
 
 ## Figma Code Connect
 
 Component `.figma.tsx` files connect React components to Figma:
-- Use component SET node-id in colon format: `18:30003`
-- Map Figma properties to React props
+
+```tsx
+import figma from '@figma/code-connect'
+import { Button } from './Button'
+
+figma.connect(Button, 'https://www.figma.com/design/<file-id>?node-id=<node-id>', {
+  props: {
+    variant: figma.enum('Appearance', {
+      'Primary': 'primary',
+      'Soft': 'soft',
+    }),
+    size: figma.enum('Size', {
+      'XSmall': 'xs',
+      'Small': 'sm',
+      'Default': 'md',
+      'Large': 'lg',
+    }),
+    children: figma.string('Label'),
+    isDisabled: figma.enum('Appearance', { 'Disabled': true }),
+  },
+  example: (props) => <Button {...props} />,
+})
+```
 
 ## Known Issues
 
