@@ -46,7 +46,7 @@ type Story = StoryObj<typeof Radio>
 
 export const Overview: Story = {
   render: () => (
-    <div className="flex flex-col gap-24">
+    <div className="flex gap-[96px]">
       {/* Display Label */}
       <div className="flex flex-col gap-8">
         <span className="text-sm font-medium text-gray-500">Display Label</span>
