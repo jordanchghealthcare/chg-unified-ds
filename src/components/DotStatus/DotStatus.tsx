@@ -13,6 +13,7 @@ export const styles = sortCx({
   sizes: {
     compact: { root: 'size-8' },
     default: { root: 'size-12' },
+    lg: { root: 'size-16' },
   },
   appearances: {
     neutral: { root: 'bg-gray-200' },

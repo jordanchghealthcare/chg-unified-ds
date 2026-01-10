@@ -17,7 +17,7 @@ const meta: Meta<typeof DotStatus> = {
     },
     size: {
       control: 'select',
-      options: ['compact', 'default'],
+      options: ['compact', 'default', 'lg'],
       table: { category: 'Appearance' },
     },
     border: {
@@ -121,6 +121,10 @@ export const Overview: Story = {
           <div className="flex flex-col items-center gap-8">
             <DotStatus size="default" appearance="green" />
             <span className="text-xs text-gray-400">Default (12px)</span>
+          </div>
+          <div className="flex flex-col items-center gap-8">
+            <DotStatus size="lg" appearance="green" />
+            <span className="text-xs text-gray-400">Large (16px)</span>
           </div>
         </div>
       </div>

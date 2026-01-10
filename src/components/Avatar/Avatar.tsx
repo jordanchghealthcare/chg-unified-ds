@@ -5,9 +5,24 @@
 'use client'
 
 import { cx, sortCx } from '@/utils/cx'
+import { DotStatus, type DotStatusAppearance, type DotStatusSize } from '../DotStatus'
 
 export type AvatarStatus = 'online' | 'busy' | 'away' | 'offline'
 export type AvatarSize = 'sm' | 'md' | 'lg'
+
+// Semantic mapping from avatar status to DotStatus appearance
+const statusToAppearance: Record<AvatarStatus, DotStatusAppearance> = {
+  online: 'green',
+  busy: 'red',
+  away: 'orange',
+  offline: 'neutral',
+}
+
+const avatarSizeToDotSize: Record<AvatarSize, DotStatusSize> = {
+  sm: 'compact',
+  md: 'default',
+  lg: 'lg',
+}
 
 export const styles = sortCx({
   root: 'relative inline-block',
@@ -15,17 +30,14 @@ export const styles = sortCx({
     sm: {
       avatar: 'size-[32px]',
       text: 'text-xs',
-      status: 'size-[8px]',
     },
     md: {
       avatar: 'size-[48px]',
       text: 'text-sm',
-      status: 'size-[12px]',
     },
     lg: {
       avatar: 'size-[64px]',
       text: 'text-md',
-      status: 'size-[16px]',
     },
   },
   image: 'rounded-9999 object-cover',
@@ -33,13 +45,6 @@ export const styles = sortCx({
     'flex items-center justify-center rounded-9999',
     'bg-brand-700 font-bold text-base-white',
   ].join(' '),
-  status: {
-    base: 'absolute bottom-0 right-0 rounded-9999 border-2 border-base-white',
-    online: 'bg-success-400',
-    busy: 'bg-error-500',
-    away: 'bg-warning-400',
-    offline: 'bg-gray-400',
-  },
 })
 
 export interface AvatarProps {
@@ -98,13 +103,11 @@ export function Avatar({
         </div>
       )}
       {status && (
-        <span
-          className={cx(
-            styles.status.base,
-            styles.status[status],
-            sizeStyles.status
-          )}
-          aria-label={status}
+        <DotStatus
+          appearance={statusToAppearance[status]}
+          size={avatarSizeToDotSize[size]}
+          border
+          className="absolute bottom-0 right-0 ring-base-white"
         />
       )}
     </div>
