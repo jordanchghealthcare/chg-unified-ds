@@ -52,7 +52,7 @@ const meta: Meta<typeof Dropdown> = {
   },
   decorators: [
     (Story) => (
-      <div className="w-80">
+      <div className="w-[320px]">
         <Story />
       </div>
     ),
@@ -68,11 +68,11 @@ type Story = StoryObj<typeof Dropdown>
 
 export const Overview: Story = {
   render: () => (
-    <div className="flex w-80 flex-col gap-8">
+    <div className="flex w-[320px] flex-col gap-24">
       {/* Size */}
       <div className="flex flex-col gap-2">
         <span className="text-sm font-medium text-gray-500">Size</span>
-        <div className="flex flex-col gap-4">
+        <div className="flex flex-col gap-8">
           <Dropdown size="default" placeholder="Default size" />
           <Dropdown size="condensed" placeholder="Condensed size" />
         </div>
@@ -81,7 +81,7 @@ export const Overview: Story = {
       {/* State */}
       <div className="flex flex-col gap-2">
         <span className="text-sm font-medium text-gray-500">State</span>
-        <div className="flex flex-col gap-4">
+        <div className="flex flex-col gap-8">
           <Dropdown state="default" placeholder="Default state" />
           <Dropdown state="error" placeholder="Error state" />
           <Dropdown isDisabled placeholder="Disabled state" />
@@ -91,7 +91,7 @@ export const Overview: Story = {
       {/* With selected value */}
       <div className="flex flex-col gap-2">
         <span className="text-sm font-medium text-gray-500">With Value</span>
-        <div className="flex flex-col gap-4">
+        <div className="flex flex-col gap-8">
           <Dropdown>Option selected</Dropdown>
         </div>
       </div>
