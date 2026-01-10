@@ -138,10 +138,10 @@ export const Overview: Story = {
 }
 
 // =============================================================================
-// INTERACTIVE (with controls)
+// PROPS (with controls)
 // =============================================================================
 
-export const Interactive: Story = {
+export const Props: Story = {
   tags: ['show-panel'],
   render: (args) => (
     <div className="w-[400px]">
