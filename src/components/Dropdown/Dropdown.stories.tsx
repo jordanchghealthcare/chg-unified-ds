@@ -136,10 +136,10 @@ const GitHubIcon = ({ className }: { className?: string }) => (
 export const SourceCodeAndDesign: Story = {
   name: 'Source Code + Designs',
   render: () => (
-    <div className="flex flex-col items-center gap-24">
+    <div className="flex min-w-[420px] flex-col items-center gap-24">
       <div className="flex flex-col items-center gap-8">
-        <h2 className="text-2xl font-bold text-gray-900">Source Code + Designs</h2>
-        <p className="text-md text-gray-500">This component was built using the CHG Unified Design System</p>
+        <h2 className="text-2xl font-bold text-gray-900">Source Code + Figma Designs</h2>
+        <p className="text-md whitespace-nowrap text-gray-500">This component was built using the CHG Unified Design System</p>
       </div>
       <div className="flex gap-12">
         <Button

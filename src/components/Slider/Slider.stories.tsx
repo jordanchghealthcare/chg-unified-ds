@@ -70,29 +70,16 @@ type Story = StoryObj<typeof Slider>
 export const Overview: Story = {
   render: () => (
     <div className="flex w-[320px] flex-col gap-32">
-      {/* Labels */}
+      {/* No Labels */}
       <div className="flex flex-col gap-8">
-        <span className="text-sm font-medium text-gray-500">Labels</span>
-        <div className="flex flex-col gap-24">
-          <Slider defaultValue={[0, 50]} />
-          <Slider defaultValue={[0, 50]} showLabels />
-        </div>
+        <span className="text-sm font-medium text-gray-500">No Labels</span>
+        <Slider defaultValue={[25, 75]} />
       </div>
 
-      {/* Different Ranges */}
+      {/* With Labels */}
       <div className="flex flex-col gap-8">
-        <span className="text-sm font-medium text-gray-500">Different Ranges</span>
-        <div className="flex flex-col gap-24">
-          <Slider defaultValue={[0, 25]} showLabels />
-          <Slider defaultValue={[25, 75]} showLabels />
-          <Slider defaultValue={[50, 100]} showLabels />
-        </div>
-      </div>
-
-      {/* Disabled */}
-      <div className="flex flex-col gap-8">
-        <span className="text-sm font-medium text-gray-500">Disabled</span>
-        <Slider defaultValue={[25, 75]} isDisabled />
+        <span className="text-sm font-medium text-gray-500">With Labels</span>
+        <Slider defaultValue={[25, 75]} showLabels />
       </div>
     </div>
   ),
@@ -114,7 +101,7 @@ export const Interactive: Story = {
 }
 
 // =============================================================================
-// SOURCE CODE + DESIGNS
+// FIGMA
 // =============================================================================
 
 const FigmaIcon = ({ className }: { className?: string }) => (
@@ -136,10 +123,10 @@ const GitHubIcon = ({ className }: { className?: string }) => (
 export const SourceCodeAndDesign: Story = {
   name: 'Source Code + Designs',
   render: () => (
-    <div className="flex flex-col items-center gap-24">
+    <div className="flex min-w-[420px] flex-col items-center gap-24">
       <div className="flex flex-col items-center gap-8">
-        <h2 className="text-2xl font-bold text-gray-900">Source Code + Designs</h2>
-        <p className="text-md text-gray-500">This component was built using the CHG Unified Design System</p>
+        <h2 className="text-2xl font-bold text-gray-900">Source Code + Figma Designs</h2>
+        <p className="text-md whitespace-nowrap text-gray-500">This component was built using the CHG Unified Design System</p>
       </div>
       <div className="flex gap-12">
         <Button
