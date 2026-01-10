@@ -1,9 +1,6 @@
 import type { StorybookConfig } from '@storybook/react-vite'
 import { mergeConfig } from 'vite'
-import { resolve, dirname } from 'path'
-import { fileURLToPath } from 'url'
-
-const __dirname = dirname(fileURLToPath(import.meta.url))
+import { resolve, join } from 'path'
 
 const config: StorybookConfig = {
   stories: [
@@ -20,7 +17,7 @@ const config: StorybookConfig = {
     const { default: tailwindcss } = await import('@tailwindcss/vite')
 
     // Use Storybook config with CSS variables for runtime theme switching
-    const tailwindConfigPath = resolve(__dirname, '../tailwind.config.storybook.cjs')
+    const tailwindConfigPath = join(process.cwd(), 'tailwind.config.storybook.cjs')
 
     console.log('\n🎨 Loading Tailwind config: Storybook (runtime theme switching enabled)\n')
 
@@ -28,7 +25,7 @@ const config: StorybookConfig = {
       plugins: [tailwindcss({ config: tailwindConfigPath })],
       resolve: {
         alias: {
-          '@': resolve(__dirname, '../src'),
+          '@': join(process.cwd(), 'src'),
         },
       },
     })
