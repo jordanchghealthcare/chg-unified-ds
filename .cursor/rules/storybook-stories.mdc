@@ -70,9 +70,34 @@ Every component must include:
 - Variant stories - one for each major variant/color
 - Size stories - showing all size options
 - State stories - disabled, loading, etc.
+- `Interactive` - with `tags: ['show-panel']` to enable Controls panel
 - `Figma` - **REQUIRED as final story** with link to source
 
-## 4. Story File Structure
+## 4. Addons Panel Control
+
+The addons panel is dynamically shown/hidden based on story tags:
+
+- **Interactive stories**: MUST have `tags: ['show-panel']` to show the Controls panel
+- **All other stories**: Panel is hidden by default (no tag needed)
+
+```typescript
+// Interactive story - panel visible
+export const Interactive: Story = {
+  tags: ['show-panel'],  // <-- REQUIRED for Controls panel
+  args: {
+    children: 'Button',
+  },
+}
+
+// Other stories - panel hidden (no tag needed)
+export const Overview: Story = {
+  render: () => <div>...</div>,
+}
+```
+
+**Note:** Foundations stories (Colors, Typography, etc.) do NOT need any panel tags - the panel is hidden by default.
+
+## 5. Story File Structure
 
 ```typescript
 import type { Meta, StoryObj } from '@storybook/react'

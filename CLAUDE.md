@@ -208,6 +208,30 @@ Each component has exactly 3 stories:
 2. **Interactive** - Single component with all controls enabled
 3. **Source Code + Designs** - Links to GitHub source and Figma design (named `SourceCodeAndDesign` in code)
 
+### Addons Panel Control
+
+The addons panel (Controls/Actions) is dynamically shown/hidden based on story tags:
+
+- **Interactive stories**: Add `tags: ['show-panel']` to show the Controls panel
+- **All other stories**: Panel is hidden by default (no tag needed)
+
+```tsx
+// Interactive story - SHOW panel
+export const Interactive: Story = {
+  tags: ['show-panel'],  // <-- Required for panel to appear
+  args: {
+    children: 'Button',
+  },
+}
+
+// Overview story - panel hidden (no tag needed)
+export const Overview: Story = {
+  render: () => <div>...</div>,
+}
+```
+
+This is controlled by the `panel-controller` addon in `.storybook/manager.js`. When adding new components, always add `tags: ['show-panel']` to Interactive stories.
+
 ### ArgTypes Categories
 
 Organize controls by category:
