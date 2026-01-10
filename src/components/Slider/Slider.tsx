@@ -15,18 +15,17 @@ import { cx, sortCx } from '@/utils/cx'
 
 export const styles = sortCx({
   common: {
-    root: 'flex w-full flex-col gap-4',
-    track: 'relative h-8 w-full',
-    trackBar: 'absolute top-0 h-8 w-full rounded-full bg-gray-200',
-    progress: 'absolute top-0 h-8 rounded-full bg-brand-600',
+    root: 'flex w-full flex-col',
+    track: 'relative h-24 w-full',
+    trackBar: 'absolute top-1/2 h-8 w-full -translate-y-1/2 rounded-full bg-gray-200',
+    trackFill: 'absolute top-1/2 h-8 -translate-y-1/2 rounded-full bg-brand-600',
     thumb: [
-      'top-1/2 size-24 -translate-y-1/2 rounded-full border border-gray-300 bg-gray-50 shadow-sm',
+      'top-1/2 size-24 rounded-full border border-gray-300 bg-gray-50 shadow-sm',
       'cursor-grab focus:outline-none focus-visible:ring-4 focus-visible:ring-brand-100',
       'dragging:cursor-grabbing',
       'disabled:cursor-not-allowed disabled:opacity-50',
     ].join(' '),
-    output: 'text-center text-xs font-semibold text-gray-500',
-    thumbContainer: 'relative',
+    output: 'absolute top-full left-1/2 mt-8 -translate-x-1/2 text-xs font-semibold text-gray-500',
   },
 })
 
@@ -51,49 +50,35 @@ export function Slider({
       {...props}
     >
       {({ state }) => (
-        <>
-          <SliderTrack className={styles.common.track}>
-            {/* Background track */}
-            <div className={styles.common.trackBar} />
+        <SliderTrack className={styles.common.track}>
+          {/* Background track */}
+          <div className={styles.common.trackBar} />
 
-            {/* Progress fill between thumbs */}
-            <div
-              className={styles.common.progress}
-              style={{
-                left: `${state.getThumbPercent(0) * 100}%`,
-                width: `${(state.getThumbPercent(1) - state.getThumbPercent(0)) * 100}%`,
-              }}
-            />
+          {/* Progress fill between thumbs */}
+          <div
+            className={styles.common.trackFill}
+            style={{
+              left: `${state.getThumbPercent(0) * 100}%`,
+              width: `${(state.getThumbPercent(1) - state.getThumbPercent(0)) * 100}%`,
+            }}
+          />
 
-            {/* Left thumb */}
-            <div className={styles.common.thumbContainer}>
-              <SliderThumb
-                index={0}
-                className={styles.common.thumb}
-                aria-label="Minimum value"
-              />
-              {showLabels && (
-                <SliderOutput className={cx(styles.common.output, 'absolute top-28 left-1/2 -translate-x-1/2')}>
-                  {formatValue(state.values[0])}
-                </SliderOutput>
-              )}
-            </div>
-
-            {/* Right thumb */}
-            <div className={styles.common.thumbContainer}>
-              <SliderThumb
-                index={1}
-                className={styles.common.thumb}
-                aria-label="Maximum value"
-              />
-              {showLabels && (
-                <SliderOutput className={cx(styles.common.output, 'absolute top-28 left-1/2 -translate-x-1/2')}>
-                  {formatValue(state.values[1])}
-                </SliderOutput>
-              )}
-            </div>
-          </SliderTrack>
-        </>
+          {/* Thumbs */}
+          <SliderThumb index={0} className={styles.common.thumb} aria-label="Minimum value">
+            {showLabels && (
+              <SliderOutput className={styles.common.output}>
+                {formatValue(state.values[0])}
+              </SliderOutput>
+            )}
+          </SliderThumb>
+          <SliderThumb index={1} className={styles.common.thumb} aria-label="Maximum value">
+            {showLabels && (
+              <SliderOutput className={styles.common.output}>
+                {formatValue(state.values[1])}
+              </SliderOutput>
+            )}
+          </SliderThumb>
+        </SliderTrack>
       )}
     </AriaSlider>
   )
