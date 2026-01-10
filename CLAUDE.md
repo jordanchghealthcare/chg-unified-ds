@@ -268,6 +268,18 @@ figma.connect(Button, 'https://www.figma.com/design/<file-id>?node-id=<node-id>'
 Token issues are tracked in `tokens/TOKEN-ISSUES.md`. Currently:
 - Self-referencing radius aliases (workaround in place)
 
+### Tailwind CSS 4 + Storybook
+
+**New components require a Storybook restart.** Tailwind CSS 4's HMR doesn't always detect utility classes in newly created component files. If a new component appears unstyled (no colors, looks like wireframes), restart Storybook to force a full Tailwind rebuild:
+
+```bash
+# Kill and restart
+pkill -f "storybook dev"
+npm run dev
+```
+
+This only affects new files - edits to existing components work fine with HMR.
+
 ## Commit Messages
 
 ```
