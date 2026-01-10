@@ -5,7 +5,7 @@ const theme = create({
   base: 'light',
   brandTitle: 'CHG Unified Design',
   brandUrl: 'https://github.com/jordanchghealthcare/chg-unified-ds',
-  brandImage: '/CHG-logo.png',
+  brandImage: '/CHG-logo.svg',
   brandTarget: '_blank',
 })
 
