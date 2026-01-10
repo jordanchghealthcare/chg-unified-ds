@@ -101,6 +101,10 @@ export interface ButtonProps extends Omit<AriaButtonProps, 'className' | 'childr
   className?: string
   /** href makes the button render as a link */
   href?: string
+  /** Link target (e.g., "_blank" for new tab) */
+  target?: string
+  /** Link rel attribute (e.g., "noopener noreferrer") */
+  rel?: string
   /** Button content */
   children?: ReactNode
 }
@@ -114,6 +118,8 @@ export function Button({
   iconTrailing: IconTrailing,
   isDisabled,
   href,
+  target,
+  rel,
   ...props
 }: ButtonProps) {
   const isIconOnly = (IconLeading || IconTrailing) && !children
@@ -143,6 +149,8 @@ export function Button({
     return (
       <AriaLink
         href={isDisabled ? undefined : href}
+        target={target}
+        rel={rel}
         data-icon-only={isIconOnly ? true : undefined}
         isDisabled={isDisabled}
         className={sharedClassName}

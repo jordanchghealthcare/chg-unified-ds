@@ -1,4 +1,5 @@
 import type { Meta, StoryObj } from '@storybook/react'
+import { Button } from '../Button'
 import { Dropdown } from './Dropdown'
 
 const meta: Meta<typeof Dropdown> = {
@@ -116,26 +117,32 @@ export const Interactive: Story = {
 // FIGMA
 // =============================================================================
 
-const ExternalLinkIcon = ({ className }: { className?: string }) => (
-  <svg className={className} viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2">
-    <path d="M18 13v6a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V8a2 2 0 0 1 2-2h6M15 3h6v6M10 14L21 3" />
+const FigmaIcon = ({ className }: { className?: string }) => (
+  <svg className={className} viewBox="0 0 38 57" fill="currentColor">
+    <path d="M19 28.5C19 23.2533 23.2533 19 28.5 19C33.7467 19 38 23.2533 38 28.5C38 33.7467 33.7467 38 28.5 38C23.2533 38 19 33.7467 19 28.5Z" />
+    <path d="M0 47.5C0 42.2533 4.25329 38 9.5 38H19V47.5C19 52.7467 14.7467 57 9.5 57C4.25329 57 0 52.7467 0 47.5Z" />
+    <path d="M19 0V19H28.5C33.7467 19 38 14.7467 38 9.5C38 4.25329 33.7467 0 28.5 0H19Z" />
+    <path d="M0 9.5C0 14.7467 4.25329 19 9.5 19H19V0H9.5C4.25329 0 0 4.25329 0 9.5Z" />
+    <path d="M0 28.5C0 33.7467 4.25329 38 9.5 38H19V19H9.5C4.25329 19 0 23.2533 0 28.5Z" />
   </svg>
 )
 
 export const Figma: Story = {
   render: () => (
-    <div className="flex flex-col items-center gap-16">
-      <h2 className="text-2xl font-bold text-gray-900">Figma Source</h2>
-      <p className="text-md text-gray-500">This component was built from the CHG Design System in Figma.</p>
-      <a
+    <div className="flex flex-col items-center gap-24">
+      <div className="flex flex-col items-center gap-8">
+        <h2 className="text-2xl font-bold text-gray-900">Figma Source</h2>
+        <p className="text-md text-gray-500">This component was built using the CHG Unified Design System</p>
+      </div>
+      <Button
         href="https://www.figma.com/design/r7KRvL85GNIIMn4iM9gKvo/Design-System--Components--Copy-?node-id=23-944"
         target="_blank"
         rel="noopener noreferrer"
-        className="inline-flex items-center gap-8 rounded-8 bg-[#9474d4] px-24 py-12 text-md font-medium text-base-white hover:bg-[#8264c4]"
+        iconLeading={FigmaIcon}
+        className="bg-[#A259FF] hover:bg-[#8B3DFF]"
       >
-        <ExternalLinkIcon className="size-[20px]" />
         View in Figma
-      </a>
+      </Button>
     </div>
   ),
 }
