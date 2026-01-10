@@ -14,5 +14,8 @@ dist/
 .vscode/
 .idea/
 
+# Local config
+.mcp.json
+
 # Temp
 *.log
