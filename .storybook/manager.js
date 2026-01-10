@@ -4,7 +4,7 @@ import { create } from '@storybook/theming'
 const theme = create({
   base: 'light',
   brandTitle: 'CHG Unified Design',
-  brandUrl: 'https://chghealthcare.com',
+  brandUrl: 'https://github.com/jordanchghealthcare/chg-unified-ds',
   brandImage: '/CHG-logo.png',
   brandTarget: '_blank',
 })
