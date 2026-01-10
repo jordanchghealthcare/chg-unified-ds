@@ -15,6 +15,8 @@ CHG Unified Design System is a multi-brand design system built with React, React
 
 ## Commands
 
+**Requires Node.js 20+**
+
 ```bash
 npm run dev              # Start Storybook on port 6006
 npm run build            # Build Storybook
