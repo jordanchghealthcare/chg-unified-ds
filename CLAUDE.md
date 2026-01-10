@@ -204,7 +204,7 @@ Each component has exactly 3 stories:
 
 1. **Overview** - Shows all variants grouped by Figma property (Appearance, Layout, State, Size)
 2. **Interactive** - Single component with all controls enabled
-3. **Figma** - Links back to Figma source
+3. **Source Code + Designs** - Links to GitHub source and Figma design (named `SourceCodeAndDesign` in code)
 
 ### ArgTypes Categories
 
@@ -263,10 +263,18 @@ figma.connect(Button, 'https://www.figma.com/design/<file-id>?node-id=<node-id>'
 })
 ```
 
+## Utilities
+
+Two utility modules in `src/utils/`:
+
+- **`cx.ts`** - Class merging with `tailwind-merge`. Use `cx()` to merge classes, `sortCx()` to wrap style objects for Tailwind IntelliSense
+- **`is-react-component.ts`** - Type guards for distinguishing FC components from ReactNode elements (used for icon props)
+
 ## Known Issues
 
 Token issues are tracked in `tokens/TOKEN-ISSUES.md`. Currently:
 - Self-referencing radius aliases (workaround in place)
+- Empty brand-specific token files (brand colors available in Primitives file)
 
 ### Tailwind CSS 4 + Storybook
 
@@ -290,4 +298,4 @@ This only affects new files - edits to existing components work fine with HMR.
 
 Types: `feat`, `fix`, `chore`, `docs`, `refactor`, `test`, `style`, `perf`
 
-Do not add AI attribution or promotional footers.
+Do not add AI attribution or promotional footers (no "Co-Authored-By", "Generated with", etc.).
