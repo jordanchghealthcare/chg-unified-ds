@@ -23,7 +23,6 @@ figma.connect(Chip, 'https://www.figma.com/design/r7KRvL85GNIIMn4iM9gKvo/Design-
       'Default': 'default',
       'Compact': 'compact',
     }),
-    children: figma.string('Label States'),
   },
-  example: (props) => <Chip {...props} />,
+  example: (props) => <Chip {...props}>Label</Chip>,
 })
