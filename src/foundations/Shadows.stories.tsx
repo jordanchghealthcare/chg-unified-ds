@@ -2,6 +2,7 @@ import type { Meta, StoryObj } from '@storybook/react'
 
 const meta: Meta = {
   title: 'Foundations/Shadows',
+  tags: ['hide-panel'],
   parameters: {
     layout: 'padded',
   },
