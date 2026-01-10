@@ -104,6 +104,7 @@ export const Overview: Story = {
 // =============================================================================
 
 export const Interactive: Story = {
+  tags: ['show-panel'],
   render: (args) => (
     <RadioGroup defaultValue="interactive">
       <Radio value="interactive" {...args} />

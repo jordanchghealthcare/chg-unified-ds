@@ -153,6 +153,7 @@ export const Overview: Story = {
 // =============================================================================
 
 export const Interactive: Story = {
+  tags: ['show-panel'],
   args: {
     children: 'Button',
     variant: 'primary',

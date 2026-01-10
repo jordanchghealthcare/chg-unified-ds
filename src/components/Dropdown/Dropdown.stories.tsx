@@ -105,6 +105,7 @@ export const Overview: Story = {
 // =============================================================================
 
 export const Interactive: Story = {
+  tags: ['show-panel'],
   args: {
     placeholder: 'Select an option',
     size: 'default',

@@ -90,6 +90,7 @@ export const Overview: Story = {
 // =============================================================================
 
 export const Interactive: Story = {
+  tags: ['show-panel'],
   args: {
     showLabels: true,
     isDisabled: false,
