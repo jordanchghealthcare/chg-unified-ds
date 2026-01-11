@@ -27,6 +27,26 @@ pkill -f "storybook dev" && npm run dev
 
 The Figma access token can be found in `.mcp.json` under `mcpServers.figma-work.args` (the `--figma-api-key` value).
 
+## Publishing to npm
+
+To publish a new version to npm:
+
+```bash
+# 1. Bump version (patch/minor/major)
+npm version patch --no-git-tag-version
+
+# 2. Build the package
+npm run build
+
+# 3. Publish (token is in ~/.npmrc)
+npm publish --access public
+
+# 4. Commit and push version bump
+git add package.json && git commit -m "chore: bump version to X.X.X" && git push
+```
+
+**Note:** The npm token in `~/.npmrc` has 2FA bypass enabled. If it expires, create a new Granular Access Token at https://www.npmjs.com/settings/oxymormon/tokens with "Bypass two-factor authentication" enabled. Token should start with `npm_`.
+
 ## Path Alias
 
 Use `@/` to import from `src/`:
