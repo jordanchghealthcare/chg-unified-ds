@@ -26,7 +26,7 @@ export const styles = sortCx({
   item: {
     common: 'flex',
     horizontal: 'flex-col items-center flex-1',
-    vertical: 'flex-row',
+    vertical: 'flex-row items-stretch',
   },
   progress: {
     common: 'flex items-center',
@@ -200,15 +200,8 @@ function StepIndicatorItem({
   if (orientation === 'vertical') {
     return (
       <div className={cx(styles.item.common, styles.item.vertical, className)}>
-        {/* Left column: lines and indicator (centered) */}
+        {/* Left column: indicator at top, line below */}
         <div className="flex flex-col items-center">
-          {/* Top line */}
-          {showLeftLine ? (
-            <div className={cx(styles.line.vertical, styles.lineColor[leftLineColor])} />
-          ) : (
-            <div className={cx(styles.line.vertical, 'bg-transparent', 'min-h-0 h-0')} />
-          )}
-
           {/* Indicator */}
           <div
             className={cx(
@@ -220,17 +213,15 @@ function StepIndicatorItem({
             {renderIndicator()}
           </div>
 
-          {/* Bottom line */}
+          {/* Line below indicator */}
           {showRightLine ? (
-            <div className={cx(styles.line.vertical, styles.lineColor[rightLineColor])} />
-          ) : (
-            <div className={cx(styles.line.vertical, 'bg-transparent', 'min-h-0 h-0')} />
-          )}
+            <div className={cx(styles.line.vertical, 'flex-1', styles.lineColor[rightLineColor])} />
+          ) : null}
         </div>
 
-        {/* Right column: labels (vertically centered with indicator) */}
+        {/* Right column: labels aligned with indicator top */}
         {showLabels && (label || description || children) && (
-          <div className={cx(styles.labelContainer.vertical, 'self-center')}>
+          <div className={cx(styles.labelContainer.vertical)}>
             {label && (
               <span className={cx(styles.label.common, styles.label[status])}>
                 {label}
