@@ -8,8 +8,9 @@ import {
   createContext,
   useContext,
   Children,
+  cloneElement,
+  isValidElement,
   type ReactNode,
-  type ReactElement,
 } from 'react'
 import { cx, sortCx } from '@/utils/cx'
 
@@ -94,8 +95,7 @@ interface StepIndicatorContextValue {
   orientation: StepOrientation
   size: StepSize
   showLabels: boolean
-  getPosition: (index: number) => StepPosition
-  registerItem: () => number
+  totalItems: number
 }
 
 const StepIndicatorContext = createContext<StepIndicatorContextValue | null>(null)
@@ -149,6 +149,8 @@ export interface StepIndicatorItemProps {
   children?: ReactNode
   /** Additional className */
   className?: string
+  /** @internal Index assigned by parent */
+  _index?: number
 }
 
 function StepIndicatorItem({
@@ -157,12 +159,16 @@ function StepIndicatorItem({
   description,
   children,
   className,
+  _index = 0,
 }: StepIndicatorItemProps) {
-  const { orientation, size, showLabels, getPosition, registerItem } =
+  const { orientation, size, showLabels, totalItems } =
     useStepIndicatorContext()
 
-  const index = registerItem()
-  const position = getPosition(index)
+  const index = _index
+  const position: StepPosition =
+    totalItems === 1 ? 'only' :
+    index === 0 ? 'start' :
+    index === totalItems - 1 ? 'end' : 'middle'
 
   const showLeftLine = position === 'middle' || position === 'end'
   const showRightLine = position === 'middle' || position === 'start'
@@ -333,28 +339,19 @@ function StepIndicatorRoot({
   children,
   className,
 }: StepIndicatorProps) {
-  const childArray = Children.toArray(children) as ReactElement[]
-  const totalItems = childArray.length
-  let currentIndex = -1
-
-  const getPosition = (index: number): StepPosition => {
-    if (totalItems === 1) return 'only'
-    if (index === 0) return 'start'
-    if (index === totalItems - 1) return 'end'
-    return 'middle'
-  }
-
-  const registerItem = () => {
-    currentIndex += 1
-    return currentIndex
-  }
+  const totalItems = Children.count(children)
 
   return (
     <StepIndicatorContext.Provider
-      value={{ orientation, size, showLabels, getPosition, registerItem }}
+      value={{ orientation, size, showLabels, totalItems }}
     >
       <div className={cx(styles.root[orientation], className)}>
-        {children}
+        {Children.map(children, (child, index) => {
+          if (!isValidElement<StepIndicatorItemProps>(child)) {
+            return child
+          }
+          return cloneElement(child, { _index: index } as Partial<StepIndicatorItemProps>)
+        })}
       </div>
     </StepIndicatorContext.Provider>
   )
