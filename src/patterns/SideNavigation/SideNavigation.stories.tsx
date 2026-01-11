@@ -119,9 +119,26 @@ export const Overview: Story = {
               <SideNavigation.Item
                 icon={<UsersIcon />}
                 label="Users"
-                isActive={activeItem === 'users'}
-                onClick={() => setActiveItem('users')}
-              />
+                isActive={activeItem.startsWith('users')}
+                isOpen={openItems.includes('users')}
+                onToggle={() => toggleItem('users')}
+              >
+                <SideNavigation.SubItem
+                  label="All Users"
+                  isActive={activeItem === 'users-all'}
+                  onClick={() => setActiveItem('users-all')}
+                />
+                <SideNavigation.SubItem
+                  label="Active"
+                  isActive={activeItem === 'users-active'}
+                  onClick={() => setActiveItem('users-active')}
+                />
+                <SideNavigation.SubItem
+                  label="Invited"
+                  isActive={activeItem === 'users-invited'}
+                  onClick={() => setActiveItem('users-invited')}
+                />
+              </SideNavigation.Item>
               <SideNavigation.Item
                 icon={<FolderIcon />}
                 label="Projects"
@@ -155,6 +172,16 @@ export const Overview: Story = {
                   label="Notifications"
                   isActive={activeItem === 'settings-notifications'}
                   onClick={() => setActiveItem('settings-notifications')}
+                />
+                <SideNavigation.SubItem
+                  label="Billing"
+                  isActive={activeItem === 'settings-billing'}
+                  onClick={() => setActiveItem('settings-billing')}
+                />
+                <SideNavigation.SubItem
+                  label="Integrations"
+                  isActive={activeItem === 'settings-integrations'}
+                  onClick={() => setActiveItem('settings-integrations')}
                 />
               </SideNavigation.Item>
             </SideNavigation.Section>
