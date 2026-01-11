@@ -8,7 +8,8 @@ alwaysApply: true
 
 ```bash
 npm run dev              # Start Storybook on port 6006
-npm run build            # Build Storybook
+npm run build            # Build Storybook (for preview/deploy)
+npm run build:lib        # Build library for npm publishing
 npm run build:tokens     # Generate CSS from Figma token JSON files
 npm run build:tailwind   # Generate brand-specific Tailwind configs from tokens
 npm run validate:tokens  # Check token files for issues (aliases, nulls, etc.)
@@ -35,8 +36,8 @@ To publish a new version to npm:
 # 1. Bump version (patch/minor/major)
 npm version patch --no-git-tag-version
 
-# 2. Build the package
-npm run build
+# 2. Build the library (NOT `npm run build` which builds Storybook)
+npm run build:lib
 
 # 3. Publish (token is in ~/.npmrc)
 npm publish --access public
