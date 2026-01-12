@@ -20,13 +20,19 @@ src/components/<name>/
 ```
 
 ## 3. Add Documentation Header
-Every component file must have a doc comment at the top with link to Figma source:
+Every component file must have a doc comment at the top with links to Figma source and Storybook:
 ```typescript
 /**
  * ComponentName component
  * @figma https://www.figma.com/design/<file-id>?node-id=<node-id>
+ * @storybook https://www.chg-unified-design.com/?path=/story/components-componentname--props
  */
 ```
+
+The Storybook URL follows the pattern:
+- Base: `https://www.chg-unified-design.com/`
+- Path: `?path=/story/components-{name}--props`
+- Component name is lowercase (e.g., `StepIndicator` → `stepindicator`)
 
 ## 4. Universal Component Pattern
 
@@ -36,6 +42,7 @@ ALL components use the style object pattern with `sortCx`:
 /**
  * ComponentName component
  * @figma https://www.figma.com/design/<file-id>?node-id=<node-id>
+ * @storybook https://www.chg-unified-design.com/?path=/story/components-componentname--props
  */
 'use client'
 
